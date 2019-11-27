@@ -1,9 +1,9 @@
-from random import randrange
+from random import randint
 from matplotlib import pyplot as plt
 
 
 def miller_rabin(n, it=1000):
-    return all(witness(n, randrange(1, n)) for _ in range(it))
+    return all(witness(n, randint(1, n-1)) for _ in range(it))
 
 
 def witness(n, a):
@@ -29,15 +29,28 @@ def number_witness(n):
 
 def mean_distance(n, anz, it=1000):
     distance = lambda x: next_prime(x, it) - x
-    return sum(distance(randrange(n))  for _ in range(anz))/anz
+    return sum(distance(randint(2, n))  for _ in range(anz))/anz
 
 
 test_A = [(17, 5, 17), (32, 5, 37), (pow(10, 100), 10, pow(10, 100) + 267)]
 
 if all(next_prime(a, b) == c for a, b, c in test_A):
-    print("Next-Prime-Test Bestanden")
+    print("Next-Prime-Test bestanden")
 
 test_B = [(9, 6), (325, 306)]
 
 if all(number_witness(a) == b for a, b in test_B):
-    print("Number-Witness-Test Bestanden")
+    print("Number-Witness-Test bestanden")
+
+r = range(10, 10**8, 10**4)
+
+plt.scatter(list(r), [mean_distance(n, 10, 10) for n in r], s=0.5)
+print("First Plot")
+plt.scatter(list(r), [mean_distance(n, 100, 10) for n in r], s=0.5)
+print("Second Plot")
+plt.scatter(list(r), [mean_distance(n, 1000, 10) for n in r], s=0.5)
+print("Third Plot")
+plt.xlabel("$N$")
+plt.ylabel("$\Delta P_N$")
+plt.title("Distances to next prime $\Delta P_N$ size $N$")
+plt.show()
