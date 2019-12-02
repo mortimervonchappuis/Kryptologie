@@ -8,15 +8,16 @@ def miller_rabin(n, it=1000):
 
 def witness(n, a):
     k = n-1
-    x = pow(a, k, n) 
+    x = pow(a, k, n)
+    if x != 1: return False
     while x == 1 and k % 2 == 0:
         k >>= 1
         x = pow(a, k, n)
-        #print(f"n={n} a={a} x={x}, k={k}")
     return x in (1, n-1)
 
 
 def next_prime(n, it=1000):
+    if n == 2: return n
     n += (1&n)^1 # macht n ungerade
     while not miller_rabin(n, it):
         n += 2
@@ -44,13 +45,13 @@ if all(number_witness(a) == b for a, b in test_B):
 
 r = range(10, 10**8, 10**4)
 
-plt.scatter(list(r), [mean_distance(n, 10, 10) for n in r], s=0.5)
-print("First Plot")
-plt.scatter(list(r), [mean_distance(n, 100, 10) for n in r], s=0.5)
-print("Second Plot")
-plt.scatter(list(r), [mean_distance(n, 1000, 10) for n in r], s=0.5)
-print("Third Plot")
-plt.xlabel("$N$")
-plt.ylabel("$\Delta P_N$")
-plt.title("Distances to next prime $\Delta P_N$ size $N$")
-plt.show()
+#plt.scatter(list(r), [mean_distance(n, 10, 10) for n in r], s=0.5)
+#print("First Plot")
+#plt.scatter(list(r), [mean_distance(n, 100, 10) for n in r], s=0.5)
+#print("Second Plot")
+#plt.scatter(list(r), [mean_distance(n, 1000, 10) for n in r], s=0.5)
+#print("Third Plot")
+#plt.xlabel("$N$")
+#plt.ylabel("$\Delta P_N$")
+#plt.title("Distances to next prime $\Delta P_N$ size $N$")
+#plt.show()
