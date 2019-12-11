@@ -1,5 +1,6 @@
 from random import randint
 from matplotlib import pyplot as plt
+import pickle
 
 
 def miller_rabin(n, it=1000):
@@ -45,13 +46,22 @@ if all(number_witness(a) == b for a, b in test_B):
 
 r = range(10, 10**8, 10**4)
 
-#plt.scatter(list(r), [mean_distance(n, 10, 10) for n in r], s=0.5)
-#print("First Plot")
-#plt.scatter(list(r), [mean_distance(n, 100, 10) for n in r], s=0.5)
-#print("Second Plot")
-#plt.scatter(list(r), [mean_distance(n, 1000, 10) for n in r], s=0.5)
-#print("Third Plot")
-#plt.xlabel("$N$")
-#plt.ylabel("$\Delta P_N$")
-#plt.title("Distances to next prime $\Delta P_N$ size $N$")
-#plt.show()
+A = [mean_distance(n, 10, 10) for n in r]
+pickle.dump(A, open("a.file", "wb"))
+B = [mean_distance(n, 100, 10) for n in r]
+pickle.dump(B, open("b.file", "wb"))
+C = [mean_distance(n, 1000, 10) for n in r]
+pickle.dump(C, open("c.file", "wb"))
+
+
+plt.scatter(list(r), A, s=0.5)
+print("First Plot")
+plt.scatter(list(r), B, s=0.5)
+print("Second Plot")
+plt.scatter(list(r), C, s=0.5)
+print("Third Plot")
+
+plt.xlabel("$N$")
+plt.ylabel("$\Delta P_N$")
+plt.title("Distances to next prime $\Delta P_N$ size $N$")
+plt.show()
